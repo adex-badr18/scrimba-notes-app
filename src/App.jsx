@@ -8,7 +8,9 @@ import { nanoid } from "nanoid";
 
 export default function App() {
     // Initialize notes with either localStorage notes or empty array
-    const [notes, setNotes] = useState(JSON.parse(localStorage.getItem('notes')) || []);
+    const [notes, setNotes] = useState(
+        () => JSON.parse(localStorage.getItem('notes')) || []
+    );
 
     // Store notes in localStorage whenever it changes.
     useEffect(() => {
