@@ -1,16 +1,16 @@
-import ReactMde from "react-mde"
-import Showdown from "showdown"
+import ReactMde from "react-mde";
+import Showdown from "showdown";
 import { useState } from "react";
 
 export default function Editor({ currentNote, updateNote }) {
-    const [selectedTab, setSelectedTab] = useState("write")
+    const [selectedTab, setSelectedTab] = useState("write");
 
     const converter = new Showdown.Converter({
         tables: true,
         simplifiedAutoLink: true,
         strikethrough: true,
         tasklists: true,
-    })  
+    });  
 
     return (
         <section className="pane editor">
@@ -26,5 +26,5 @@ export default function Editor({ currentNote, updateNote }) {
                 heightUnits="vh"
             />
         </section>
-    )
+    );
 }

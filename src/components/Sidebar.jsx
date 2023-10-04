@@ -11,7 +11,7 @@ export default function Sidebar(props) {
                 <h4 className="text-snippet">Note {index + 1}</h4>
             </div>
         </div>
-    ))
+    ));
 
     return (
         <section className="pane sidebar">
@@ -21,5 +21,5 @@ export default function Sidebar(props) {
             </div>
             {noteElements}
         </section>
-    )
+    );
 }

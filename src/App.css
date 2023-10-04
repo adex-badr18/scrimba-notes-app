@@ -1,4 +1,6 @@
-
+button:focus {
+    outline: none;
+}
 
 .ql-editor p,
 .ql-editor.ql-blank::before {
@@ -14,10 +16,6 @@
 .sidebar {
     width: 20%;
     height: 100vh;
-}
-
-.sidebar--note {
-    /* display: flex; */
 }
 
 .sidebar--header {
