@@ -5,6 +5,8 @@ import Sidebar from './components/Sidebar';
 import Editor from './components/Editor';
 import Split from "react-split";
 import { nanoid } from "nanoid";
+import { onSnapshot } from 'firebase/firestore';
+import { notesCollection } from '../firebase';
 
 export default function App() {
     // Initialize notes with either localStorage notes or empty array
@@ -14,7 +16,13 @@ export default function App() {
 
     // Store notes in localStorage whenever it changes.
     useEffect(() => {
-        localStorage.setItem('notes', JSON.stringify(notes));
+        // localStorage.setItem('notes', JSON.stringify(notes)); // localStorage setup
+        const unsubscribe = onSnapshot(notesCollection, (snapshot) => {
+            // Sync local notes array with firebase snapshot
+            console.log("THINGS ARE CHANGING");
+        });
+
+        return unsubscribe;
     }, [notes])
 
     const [currentNoteId, setCurrentNoteId] = useState(notes[0]?.id || "");
