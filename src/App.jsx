@@ -19,7 +19,10 @@ export default function App() {
         // localStorage.setItem('notes', JSON.stringify(notes)); // localStorage setup
         const unsubscribe = onSnapshot(notesCollection, (snapshot) => {
             // Sync local notes array with firebase snapshot
-            console.log("THINGS ARE CHANGING");
+            const notesArr = snapshot.docs.map(doc => ({
+                ...doc.data(),
+                id: doc.id
+            }))
         });
 
         return unsubscribe;
