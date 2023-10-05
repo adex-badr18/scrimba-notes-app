@@ -5,12 +5,12 @@ export default function Sidebar(props) {
         return (
             <div key={note.id}>
                 <div
-
-                    className={`title ${note.id === props.currentNote.id ? "selected-note" : ""
-                        }`}
+                    className={`title ${note.id === props.currentNote.id ? "selected-note" : ""}`}
                     onClick={() => props.setCurrentNoteId(note.id)}
                 >
                     <h4 className="text-snippet">{firstLine}</h4>
+
+                    <i className="fa-regular fa-trash-can title--delete"></i>
                 </div>
             </div>
         )

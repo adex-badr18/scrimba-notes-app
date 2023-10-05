@@ -59,12 +59,16 @@ button:focus {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: 0 5px;
 }
 
 .title--delete {
     display: none;
     cursor: pointer;
     background-color: transparent;
+    color: #f32323;
+    font-size: 18px;
+    margin-right: 10px;
     border: none;
 }
 
