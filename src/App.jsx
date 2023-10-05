@@ -12,6 +12,10 @@ export default function App() {
     // Initialize notes with either localStorage notes or empty array
     const [notes, setNotes] = useState([]);
 
+    const [currentNoteId, setCurrentNoteId] = useState("");
+
+    const currentNote = notes.find(note => note.id === currentNoteId) || notes[0];
+
     // Store notes in localStorage whenever it changes.
     useEffect(() => {
         // localStorage.setItem('notes', JSON.stringify(notes)); // localStorage setup
@@ -25,11 +29,11 @@ export default function App() {
         });
 
         return unsubscribe;
+    }, [])
+
+    useEffect(() => {
+        !currentNoteId && setCurrentNoteId(notes[0]?.id);
     }, [notes])
-
-    const [currentNoteId, setCurrentNoteId] = useState(notes[0]?.id || "");
-
-    const currentNote = notes.find(note => note.id === currentNoteId) || notes[0];
 
     async function createNewNote() {
         const newNote = {
@@ -79,14 +83,10 @@ export default function App() {
                             newNote={createNewNote}
                             deleteNote={deleteNote}
                         />
-                        {
-                            currentNoteId &&
-                            notes.length > 0 &&
-                            <Editor
-                                currentNote={currentNote}
-                                updateNote={updateNote}
-                            />
-                        }
+                        <Editor
+                            currentNote={currentNote}
+                            updateNote={updateNote}
+                        />
                     </Split>
                     :
                     <div className="no-notes">
