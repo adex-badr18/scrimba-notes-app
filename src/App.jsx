@@ -5,8 +5,8 @@ import Sidebar from './components/Sidebar';
 import Editor from './components/Editor';
 import Split from "react-split";
 import { nanoid } from "nanoid";
-import { onSnapshot, addDoc } from 'firebase/firestore';
-import { notesCollection } from '../firebase';
+import { onSnapshot, addDoc, doc, deleteDoc } from 'firebase/firestore';
+import { notesCollection, db } from '../firebase';
 
 export default function App() {
     // Initialize notes with either localStorage notes or empty array
@@ -57,12 +57,9 @@ export default function App() {
         })
     }
 
-    function deleteNote(event, noteId) {
-        event.stopPropagation();
-
-        setNotes(oldNotes => {
-            return oldNotes.filter(oldNote => oldNote.id !== noteId);
-        });
+    async function deleteNote(noteId) {
+        const noteRef = doc(db, 'notes', noteId);
+        await deleteDoc(noteRef);
     }
 
     return (

@@ -10,7 +10,7 @@ export default function Sidebar(props) {
                 >
                     <h4 className="text-snippet">{firstLine}</h4>
 
-                    <i className="fa-regular fa-trash-can title--delete" onClick={(event) => props.deleteNote(event, note.id)}></i>
+                    <i className="fa-regular fa-trash-can title--delete" onClick={() => props.deleteNote(note.id)}></i>
                 </div>
             </div>
         )
