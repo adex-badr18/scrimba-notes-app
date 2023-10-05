@@ -17,9 +17,7 @@ export default function App() {
         localStorage.setItem('notes', JSON.stringify(notes));
     }, [notes])
 
-    const [currentNoteId, setCurrentNoteId] = useState(
-        (notes[0] && notes[0].id) || ""
-    );
+    const [currentNoteId, setCurrentNoteId] = useState(notes[0]?.id || "");
 
     const currentNote = notes.find(note => note.id === currentNoteId) || notes[0];
 
