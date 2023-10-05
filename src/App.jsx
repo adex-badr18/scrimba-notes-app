@@ -5,7 +5,7 @@ import Sidebar from './components/Sidebar';
 import Editor from './components/Editor';
 import Split from "react-split";
 import { nanoid } from "nanoid";
-import { onSnapshot, addDoc, doc, deleteDoc } from 'firebase/firestore';
+import { onSnapshot, addDoc, doc, deleteDoc, setDoc } from 'firebase/firestore';
 import { notesCollection, db } from '../firebase';
 
 export default function App() {
@@ -16,9 +16,7 @@ export default function App() {
 
     const currentNote = notes.find(note => note.id === currentNoteId) || notes[0];
 
-    // Store notes in localStorage whenever it changes.
     useEffect(() => {
-        // localStorage.setItem('notes', JSON.stringify(notes)); // localStorage setup
         const unsubscribe = onSnapshot(notesCollection, (snapshot) => {
             // Sync local notes array with firebase snapshot
             const notesArr = snapshot.docs.map(doc => ({
@@ -31,6 +29,7 @@ export default function App() {
         return unsubscribe;
     }, [])
 
+    // set currentNoteId
     useEffect(() => {
         !currentNoteId && setCurrentNoteId(notes[0]?.id);
     }, [notes])
@@ -44,21 +43,9 @@ export default function App() {
         setCurrentNoteId(newNoteRef.id);
     }
 
-    function updateNote(text) {
-        setNotes(oldNotes => {
-            const newNotes = [];
-
-            // Put most recently modified note at the top.
-            oldNotes.forEach(oldNote => {
-                if (oldNote.id === currentNoteId) {
-                    newNotes.unshift({ ...oldNote, body: text });
-                } else {
-                    newNotes.push(oldNote);
-                }
-            })
-
-            return newNotes;
-        })
+    async function updateNote(text) {
+        const noteRef = doc(db, 'notes', currentNoteId);
+        await setDoc(noteRef, {body: text}, {merge: true});
     }
 
     async function deleteNote(noteId) {
