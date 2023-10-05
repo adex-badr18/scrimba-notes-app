@@ -16,6 +16,9 @@ export default function App() {
 
     const currentNote = notes.find(note => note.id === currentNoteId) || notes[0];
 
+    // Sort notes in descending order based on timestamp.
+    const sortedNotesArray = notes.sort((a, b) => b.updatedAt - a.updatedAt);
+
     useEffect(() => {
         const unsubscribe = onSnapshot(notesCollection, (snapshot) => {
             // Sync local notes array with firebase snapshot
@@ -23,6 +26,7 @@ export default function App() {
                 ...doc.data(),
                 id: doc.id
             }));
+
             setNotes(notesArr);
         });
 
@@ -71,7 +75,7 @@ export default function App() {
                         className="split"
                     >
                         <Sidebar
-                            notes={notes}
+                            notes={sortedNotesArray}
                             currentNote={currentNote}
                             setCurrentNoteId={setCurrentNoteId}
                             newNote={createNewNote}
