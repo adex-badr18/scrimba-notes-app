@@ -19,6 +19,8 @@ export default function App() {
     // Sort notes in descending order based on timestamp.
     const sortedNotesArray = notes.sort((a, b) => b.updatedAt - a.updatedAt);
 
+    const [tempNoteText, setTempNoteText] = useState('');
+
     useEffect(() => {
         const unsubscribe = onSnapshot(notesCollection, (snapshot) => {
             // Sync local notes array with firebase snapshot
@@ -31,12 +33,24 @@ export default function App() {
         });
 
         return unsubscribe;
-    }, [])
+    }, []);
 
     // set currentNoteId
     useEffect(() => {
         !currentNoteId && setCurrentNoteId(notes[0]?.id);
-    }, [notes])
+    }, [notes]);
+
+    useEffect(() => {
+        currentNote && setTempNoteText(currentNote.body);
+    }, [currentNote]);
+
+    useEffect(() => {
+        const timeoutId = setTimeout(() => {
+            updateNote(tempNoteText);
+        }, 10000);
+
+        return () => clearTimeout(timeoutId);
+    }, [tempNoteText]);
 
     async function createNewNote() {
         const now = Date.now();
@@ -82,8 +96,8 @@ export default function App() {
                             deleteNote={deleteNote}
                         />
                         <Editor
-                            currentNote={currentNote}
-                            updateNote={updateNote}
+                            setTempNoteText={setTempNoteText}
+                            tempNoteText={tempNoteText}
                         />
                     </Split>
                     :
